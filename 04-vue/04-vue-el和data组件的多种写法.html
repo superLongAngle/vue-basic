@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>el和data组件的多种写法</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <!-- 
+        总结
+          el和data组件的多种写法
+            1，el有两种写法:
+                (1)new Vue时候配置el属性
+                (2)先创建vue实例，随后再通过 v.$mount('#root')指定el的值
+            2，data有2种写法  
+                (1)对象式
+                (2)函数式
+                如何选择：目前那种写法都可以，以后学习组件时，data必须使用函数式，否则会报错
+            3，一个重要的原则：
+                由vue管理的函数，一定不要箭头函数，一旦写了箭头函数，this就不再是vue实例了
+    -->
+</head>
+<body>
+    <!-- 准备一个容器 -->
+    <div id="root">
+        <h1>你好,{{ name }}</h1>
+    </div>
+</body>
+
+<script type="text/javascript">
+//el的两种方法：
+        //   new Vue({
+    //el对容器关联的第一种写法：
+        //     el:'#root',
+        //     data:{
+        //          name:'百度'
+        //      }
+        //      })
+
+    //el对容器的第二种写法：      
+        //     const v = new Vue({
+        //     data:{
+        //         name:'百度'
+        //     }
+        //     })
+        // setTimeout(() => {
+        //     v.$mount('#root') //比el关联模块要灵活很多，比如用一个倒计时的案例来证明一下吧；用这个 v.$mount('#root') 来关联模块的话需要搭配 const v = 来接收 new Vue对象；mount是挂载的意思
+         // }, 1000); //timeout是可以换成时间的
+         
+            // const声明的是常量,声明的同时必须初始化(赋值)，否则会报错
+           const vm = new Vue({
+                el:'#root',
+//data的两种方法：
+                //data的第一种写法：对象式
+                // data:{
+                //     name:'baidu'
+                // }
+
+                //data的第二种写法：函数式
+             //普通
+             data:function(){
+                console.log('@@@',this);//此处的this是vue的实例对象
+                return{
+                    name:'baidu'
+                }
+             }   
+            //简写    
+            // data(){ // data:function(){} === data(){}
+            //     return{
+            //         name:'baidu'
+            //     }
+            // }
+            })
+            console.log(vm);
+</script>
+</html>

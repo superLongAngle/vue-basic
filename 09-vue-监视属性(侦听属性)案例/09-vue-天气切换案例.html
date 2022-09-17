@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气切换案例</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <!-- <h2>今天天气很{{ isHot ? '炎热' : '凉爽' }} </h2> 只能在后台改isHot是true还是false -->
+    <h2>今天天气很{{ info }}</h2> <!--info 是计算属性，那么需要配置conputed-->
+    <h3>今天天气很一般</h3> <!--避坑：此处没有用到data,computed,那么后台切换按钮里面的数据不会有肉眼可见的变化，但实际是有变化的。-->
+    <button @click = 'changeWeather'>切换天气</button>
+    <button @click = 'isHot = !isHot'>切换天气之技巧点</button> <!--如果只做一个操作，那么就可以这样简写，否者就写成methods方法；多个方法用;分割-->
+  </div>    
+</body>
+<script type="text/javascript">
+    const vm = new Vue({
+        el:'#root',
+        data:{
+            isHot:true
+        },
+        computed:{
+            info(){
+                return this.isHot ? '炎热' : '凉爽'
+            }
+        },
+        methods: {
+            changeWeather(){
+            return this.isHot = !this.isHot
+           }
+        },
+    })
+</script>
+</html>

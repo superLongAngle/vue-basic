@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件修饰符</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <!-- 
+        Vue中的事件修饰符：
+            1，prevent:阻止默认事件(阻止跳转到指定的网页)（常用）
+            2，stop:阻止事件冒泡（常用）
+            3，once:事件只触发一次（常用）
+            4，capture:使用事件的捕获模式
+            5，self:只有event.target是当前操作的元素时才触发事件
+            6，passive:事件的默认行为立即执行，无需等待事件回调执行完毕;(移动端用的比较多，多用于平板跟手机；@wheel.passive；@scroll可以不用)
+     -->
+     <style>
+       
+        *{  /* 通配符 */
+            margin-top: 20px;
+        }
+        .demo1{
+            height: 50px;
+            background-color: aqua;
+        }
+        .box1{
+            padding: 5px;
+            background-color: aquamarine;
+        }
+        .box2{
+            padding: 5px;
+            background-color: orange;
+        }
+        .list{
+            width: 200px;
+            height: 200px;
+            background-color: aqua;
+            overflow: auto; /*形成滚动条*/
+        }
+        li{
+            height: 100px;
+        }
+     </style>
+</head>
+<body>
+    <div id="root">
+        <h1>欢迎来到{{ name }} 学习</h1>
+        <!-- 1，prevent: 阻止跳转页面@click.prevent，方法二 -->
+        <a href="http://www.baidu.com" @click.prevent = "showInfo">点我</a>
+        <!--  2，stop:阻止事件冒泡 @click.stop 方法二 -->
+       <div class="demo1" @click = "showInfo">    <!--@click.stop一般加在里面，如果外面还有一层的话就需要在此行再加一层.stop -->
+            <!-- <button @click.stop = "showInfo">点击这</button> -->
+            <a href="http://www.baidu.com" @click.stop.prevent = "showInfo">点击我</a> <!--@click.stop.prevent可以同时进行，位子可以随机放-->
+       </div> 
+       <!-- 3，once:事件只触发一次 @click.once -->
+       <button @click.once = "showInfo">点击它</button>
+       <!-- 4，capture:使用事件的捕获模式 要放在最外层的盒子，先捕获再冒泡 -->
+       <div class="box1" @click.capture = "showMsg(1)"><!--先捕获 -->
+            div1
+       <div class="box2" @click = "showMsg(2)"><!--再冒泡 -->
+            div2
+        </div>
+       </div>
+       <!-- 5，self:只有event.target是当前操作的元素时才触发事件 @click.self也可以阻止冒泡 -->
+       <div class="demo1" @click.self = "showInfo"> <!--showInfo展示信息-->
+        <button @click = "showInfo">点击这</button>
+   </div>
+   <!--  6，passive:事件的默认行为立即执行，无需等待事件回调执行完毕 -->
+        <ul @wheel.passive="demo" class="list">  <!--绑定一个滚动事件 1,@scroll 滚动条触发的滚动；2，wheel鼠标滚轮触发的滚动-->
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+</body>
+    <script type="text/javascript">
+        new Vue({
+            el:'#root',
+            data:{
+                name:'北理工',
+            },
+            methods:{
+                showInfo(event){
+                    // event.preventDefault()//阻止跳转页面，方法一; 一般都是用方法二
+                    // event.stopPropagation() //阻止事件冒泡，方法一; 一般都是用方法二
+                    alert('您好')
+                    // console.log(event.target);//事件目标(元素botton)，帮助验证上面@click.self
+                },
+                showMsg(msg){   //showMsg
+                    console.log(msg);
+                },
+                demo(){
+                    for(let i = 0; i <100000; i++){
+                        console.log('@');
+                    }
+                    console.log('很累啊');
+                }
+            }
+        })
+    </script>
+</html>

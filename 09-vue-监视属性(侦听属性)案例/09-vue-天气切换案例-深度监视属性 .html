@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气切换案例-深度监视属性</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <!-- 
+        深度监视：
+            （1）vue中watch默认是不监测对象内部值的改变（一层）
+            （2）配置deep:true可以监测对象内部值改变（多层）
+        备注：
+            （1）vue自身可以监测对象内部值的改变，但vue提供的watch默认不可以
+            （2）使用watch根据数据的具体结构，决定是否采用深度监视
+     -->
+</head>
+
+<body>
+    <div id="root">
+        <h2>今天天气很{{ info }}</h2>
+        <button @click='changeWeather'>切换天气</button>
+        <h3>a的值是{{ numbers.a}} </h3>
+        <h3>b的值是{{ numbers.b }} </h3>
+        <button @click='numbers.a++'>点我a+1</button>
+        <button @click='numbers={a:888,b:999}'>彻底换掉numbers</button>
+    </div>
+</body>
+<script type="text/javascript">
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            isHot: true,
+            numbers: {
+                a: 12,
+                b: 23
+            }
+        },
+        computed: {
+            info() {
+                return this.isHot ? '炎热' : '凉爽'
+            }
+        },
+        methods: {
+            changeWeather() {
+                return this.isHot = !this.isHot
+            }
+        },
+        watch: {// watch用于确定监测的值
+            isHot: {//isHot === 'isHot'
+                // immediate:true,//初始化时让handler调用一下
+                //handler什么时候调用？当isHot/info发生变化时
+                handler(newValue, oldValue) {//handler监测有什么用？可以用于计算类，比如：温度=新的值-旧的值
+                    console.log('info被监测啦', newValue, oldValue);
+                }
+            }
+        },
+        // 'numbers.a':{//监视多级结构中某个属性的变化
+        //     handler(){
+        //         console.log('a改变啦');
+        //     }
+        // },
+        numbers: {
+            handler() {
+                deep: true, //监视多级结构中所有属性的变化
+                    console.log('numbers改变啦');
+            }
+        }
+    })
+</script>
+
+</html>

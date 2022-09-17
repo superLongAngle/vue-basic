@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表渲染</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <!-- 
+        v-for指令
+            1，用于展示列表数据
+            2，语法：v-for="(item,index) in xxx" :key="yyy"
+            3，可遍历：数组，对象，字符串，（用的很少），指定次数（用的很少）
+     -->
+</head>
+<body>
+    <div id="root">
+        <ul>
+            <!-- 遍历数组 (常用)-->
+            <!-- :key="p.id" 动态id 写法一 -->
+            <!-- <li v-for='p in persons' :key="p.id"> -->
+
+            <!-- 写法二 index遍历的索引值0,1,2 , 但是最好用id,为什么？ -->
+            <!-- <li v-for = '(p,index) in persons' :key="index"> -->
+
+              <!-- {{ p.name }} - {{ p.age }}  
+            </li>  -->
+
+
+
+            <!-- 遍历对象 常用-->
+            <!-- <li v-for="(a,index) in car" :key="index">
+            {{ index }}-{{ a }}  
+            </li> -->
+
+
+
+            <!-- 遍历字符串 （用的少）-->
+            <!-- <li v-for="(char,index) in str" :key="index">
+            {{ char }}-{{ index }}  
+            </li> -->
+
+
+
+            <!-- 遍历指定次数（用的少） -->
+            <li v-for="(number,index) in 5">
+            {{ index }}-{{ number }}  
+            </li>
+        </ul>
+    </div>
+</body>
+<script type="text/javascript">
+    new Vue({
+        el:'#root',
+        data:{
+            persons:[//有顺序的排序需要用数组来装，最后用对象来装对象
+                {id: '001' , name:'李四',age:'18'},
+                {id: '002' , name:'张三',age:'19'},
+                {id: '003' , name:'王五',age:'20'}
+            ],
+            car:{
+                name:'dd',
+                price:22
+            },
+            str:'Hello'
+        }
+    })
+</script>
+</html>

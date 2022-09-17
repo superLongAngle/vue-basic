@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>条件渲染-显示隐藏</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <!-- 
+        条件渲染
+            v-if:
+                写法：
+                    v-if = '表达式'
+                    v-else-if = '表达式'
+                    v-else = '表达式'
+                适用于：切换频率较低的场景
+                特点：不展示的DOM元素直接被移除
+                注意：v-if可以和：v-else-if ，v-else一起使用，但要求结构不能被‘打断’
+                    v-if条件渲染
+                    显示v-if = true;隐藏v-if = false 
+                    表达式写法：v-if = '1===1'
+                    v-else-if
+                    v-else
+            v-show:
+                写法：v-show = '表达式'
+                适用于：切换频率较高的场景
+                特点：不展示的dom元素未被移除，仅仅是使用样式隐藏掉
+            备注： 使用v-if时，元素可以无法获取到，而使用v-show一定可以获取到
+     -->
+</head>
+<body>
+    <div id="root">
+                <h1>{{ n }} </h1>
+                <button @click="n++">dian</button>
+
+
+
+        <!-- v-show条件渲染-显示show:true;隐藏show:false 表达式写法：v-show = '1===1'-->
+        <!-- <h1 v-show = true>欢迎来到{{ name }} </h1>
+        <h1 v-show = '1===1'>欢迎来到{{ name }} </h1> -->
+
+        <!--
+        -->
+        <!-- <h1 v-if = false>欢迎来到{{ name }} </h1> -->
+        <div v-if = 'n===1'>哈哈1</div>
+        <div v-else-if = 'n===1'>哈哈2</div>     
+        <div v-else-if = 'n===1'>哈哈3</div>
+        <div v-else = 'n===1'>哈哈4</div>    <!--为什么？-->
+
+
+
+        <!-- div===template，用template最大的特点就是不影响结构 -->
+        <!-- <div v-if = 'n===1'>
+            <h1>您好1</h1>
+            <h1>您好2</h1>
+            <h1>您好3</h1>
+        </div>
+
+        <template v-if="n===1"> 
+            <h1>您好1</h1>
+            <h1>您好2</h1>
+            <h1>您好3</h1>
+        </template> -->
+    </div>  
+</body>
+<script>
+    new Vue({
+        el:'#root',
+        data:{
+            name:'北京',
+            n:0
+        }
+    })
+</script>
+</html>

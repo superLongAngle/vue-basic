@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算属性</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <!-- 
+        总结
+            计算属性:
+                1,定义：要用的属性不存在，要通过已有的属性计算得来
+                2,原理：底层借助了objcet.defineproperty方法提供的getter和setter
+                3,get函数什么时候执行？
+                    1，初次读取fullName时会执行一次
+                    2，当所依赖的数据发生变化时会执行一次
+                4,优势：与methods实现相比，内存有缓存机制（复用），效率更高，调试方便
+                5,备注：
+                    1，计算属性最终会出现在vm上，直接读取使用
+                    2，如果直接属性要被修改，那必须写set函数去响应修改，且set中要引用计算时依赖的数据发生变化
+     -->
+</head>
+<body>
+    <div id="root">
+        姓：<input type="text" v-model="firstName"> <br>
+        名：<input type="text" v-model="lastName"> <br>
+        <!--{{ fullName }}要注意：很容易就写成{{ fullName() }} 
+            在使用的时候需要问问自己，读的这些东西是啥？是data中的数据？methods中的方法？还是computed中的计算属性 
+            读取属性时不用加括号，读取方法时需要加括号-->
+        全名：<span>{{ fullName }} </span> 
+    </div>
+</body>
+<script type="text/javascript">
+const vm = new Vue({//data和fullName一样都是vm的属性
+    el:'#root',
+    data:{//里面是属性
+        firstName:'张',
+        lastName:'三',
+    },
+    //computed写成跟data一样的对象形式
+   computed:{
+        // fullName:'张-三'//这样写就会报错，会缺失getter
+        fullName:{//计算属性
+            // get有什么作用？当有人在读取fullName时,get就会被调用，且返回的值就作为fullName的值
+            //get什么时候调用？1，初次读取fullName时。2，所依赖的数据发生变化
+            //get里面有缓存，但它只会被调用一次
+            get(){//不可用箭头函数，否者this就是window管辖就不会是vue管辖啦；只能用普通函数
+                console.log('get被调用')
+                // console.log(this)//此处的this就是vm
+                return this.firstName + '-' + this.lastName
+            },
+            //set什么时候调用,当fullName修改时被调用
+            set(value){
+                const arr = value.split('-')
+                this.firstName = arr[0]
+                this.lastName = arr[1]
+            }
+        }
+   },
+//    //简写:确定只读不改就可以使用简写
+//    computed:{
+//     fullName(){
+//         console.log('get被调用')
+//         return this.firstName + '-' + this.lastName
+//     }
+//    }
+})
+</script>
+</html>

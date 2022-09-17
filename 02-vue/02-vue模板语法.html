@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue模板语法</title>
+
+<!--
+     总结
+        vue模板语法有两大类
+            1，插值语法
+                功能：用于解析标签体内容
+                写法：{{xxx}}，xxx是js表达式，且可以直接读取到data中的所有属性
+            2，指定语法
+                功能：用于解析标签（包括：标签属性，标签内容，绑定事件。。。。）
+                举例：v-bind:href='xxx'或 简写为 :href='xxx',xxx同样要写js表达式。且可以直接读取到data中的所有属性
+                备注：vue中有很多的指令，且形式都是：v-???,此处我们只是拿v-bind举例子。
+-->
+<!-- 拓展：{{Date.now()}}当前时间的时间搓 -->
+
+    <!-- 1，先引入vue -->
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 2，准备好一个容器 -->
+    <div id="root">
+        <h1>插值语法</h1>
+        <h3>Hello {{name}},{{Date.now()}}</h3>
+        <hr>
+        <h1>指令语法</h1>
+        <a v-bind:href="school.url.toUpperCase()">{{school.name}}1号</a> 
+        <a :href="school.url">{{school.name}}2号</a>
+    </div>
+</body>
+<script>
+     Vue.config.productionTip = false //阻止vue在启动的时生成提示
+
+    //  3,创建vue对象
+    new Vue ({
+        el:'#root',
+        data:{
+            name:'百度',
+            school:{
+                name:'小度',
+                url:'http://www.baidu.com'
+            }
+            
+        }
+    })
+</script>
+</html>
